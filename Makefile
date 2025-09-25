@@ -4,3 +4,13 @@ run:
 	docker run --rm -it --platform linux/amd64 \
 		-v $(HOME)/dev/side-projects/c-compiler:/c-compiler \
 		-w /c-compiler compilerbook bash
+
+halcc: halcc.c
+
+test: halcc
+		./test.sh
+
+clean:
+	rm -f halcc *.o *~ tmp*
+
+.PHONY: test clean run halcc
