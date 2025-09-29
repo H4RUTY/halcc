@@ -5,8 +5,8 @@ run:
 		-v $(HOME)/dev/my-projects/halcc:/halcc \
 		-w /halcc compilerbook bash
 
-halcc:
-	gcc -o halcc halcc.c
+halcc: halcc.c
+	gcc $(CFLAGS) -o halcc halcc.c
 
 test: halcc
 		./test.sh
