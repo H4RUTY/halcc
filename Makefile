@@ -2,7 +2,7 @@ CFLAGS = -std=c11 -g -static
 
 run:
 	docker run --rm -it --platform linux/amd64 \
-		-v $(HOME)/dev/side-projects/halcc:/halcc \
+		-v $(HOME)/dev/my-projects/halcc:/halcc \
 		-w /halcc compilerbook bash
 
 halcc:
