@@ -148,6 +148,7 @@ Node* new_num(int val) {
 
 Node* expr();
 Node* mul();
+Node* unary();
 Node* primary();
 
 Node* expr() {
@@ -164,16 +165,24 @@ Node* expr() {
 }
 
 Node* mul() {
-  Node* node = primary();
+  Node* node = unary();
 
   for(;;) {
     if (consume('*'))
-      node = new_binary(ND_MUL, node, primary());
+      node = new_binary(ND_MUL, node, unary());
     else if (consume('/'))
-      node = new_binary(ND_DIV, node, primary());
+      node = new_binary(ND_DIV, node, unary());
     else
       return node;
   }
+}
+
+Node* unary() {
+  if (consume('+'))
+    return primary();
+  if (consume('-'))
+    return new_binary(ND_SUB, new_num(0), unary());
+  return primary();
 }
 
 Node* primary() {
@@ -223,7 +232,7 @@ void gen(Node* node) {
 
 int main(int argc, char** argv) {
   if (argc != 2)
-    error("%s: 引数が正しくありません。", argv[1]);
+    error("%s: 引数が正しくありません。", argv[0]);
 
   user_input = argv[1];
   token = tokenize();
